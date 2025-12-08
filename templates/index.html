@@ -1,3 +1,5 @@
+#Faltan  precios por medio de la api
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -87,7 +89,24 @@
                     </div>
                 </div>
             </div>
-
+            <div class="card mt-4 shadow-sm">
+                <div class="card-header d-flex align-items-center">
+                    <i class="bi bi-graph-up-arrow card-header-icon"></i>
+                    <strong>Proyección de Ventas (Próximos Meses)</strong>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="chartProyeccion"></canvas>
+                    </div>
+                    <hr>
+                    <h6 class="text-muted">Valores Proyectados</h6>
+                    <ul>
+                        {% for valor in proyeccion %}
+                        <li>{{ valor }} sacos</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
             <div class="col-lg-5">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-header d-flex align-items-center">
@@ -146,6 +165,38 @@
                         <i class="bi bi-plus-circle-fill card-header-icon"></i>
                         <strong>Agregar Sacos al Inventario</strong>
                     </div>
+                    <div class="card mt-4">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">Costos de Transporte</h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="/costos-transporte" method="post">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Café</label>
+                                    <input type="text" class="form-control" name="tipo_cafe" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Valor del Flete ($)</label>
+                                    <input type="number" class="form-control" name="valor_flete" required min="0">
+                                </div><button type="submit" class="btn btn-primary w-100">
+                                    
+                                </button>
+                            </form>
+                            # Mostrar resultado solo si viene del backend --
+                            {% if valor_total is not none %}
+                            <hr>
+                            <h6>Resultado:</h6>
+                            <p><strong>Tipo de café:</strong> {{ tipo_cafe }}</p>
+                            <p><strong>Valor del flete:</strong> ${{ "{:,.0f}".format(valor_flete) }}</p>
+                            <p><strong>Valor total:</strong> 
+                                <span class="text-success">
+                                    ${{ "{:,.0f}".format(valor_total) }}
+                                </span>
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
                     <div class="card-body">
                          <form action="/agregar-inventario" method="post">
                             <div class="mb-3">
